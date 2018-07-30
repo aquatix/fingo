@@ -1,0 +1,2 @@
+# fingo
+Statically generated gallery
