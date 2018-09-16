@@ -1,0 +1,7 @@
+click
+ExifRead
+ImageHash
+# Resizing
+Pillow
+# Address lookups and such
+requests
