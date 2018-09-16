@@ -1,4 +1,8 @@
+# Command line parameters
 click
+# Config files, image metadata files
+PyYAML
+# Image metadata extraction
 ExifRead
 ImageHash
 # Resizing

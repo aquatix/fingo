@@ -23,6 +23,7 @@ pillow==5.2.0
 pygments==2.2.0           # via bpython
 pylint==2.1.1
 pywavelets==1.0.0         # via imagehash
+pyyaml==3.13
 requests==2.19.1
 scipy==1.1.0              # via imagehash
 six==1.11.0               # via astroid, blessings, bpython, imagehash
