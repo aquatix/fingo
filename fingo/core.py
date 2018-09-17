@@ -30,16 +30,14 @@ logger.addHandler(lh)
 
 
 def clean_images():
-    """
-    Iterate through the scaled images and check against the collection if they're still there.
-    Remove those variants when needed.
+    """Iterates through the scaled images and check against the collection if they're still there.
+    Removes those variants when needed.
     """
     pass
 
 
 def clean_collection(collection):
-    """
-    Iterate through the images in the Collection and remove those that don't exist
+    """Iterates through the images in the Collection and remove those that don't exist
     on disk anymore
     """
     images = collection.images()
@@ -53,8 +51,7 @@ def clean_collection(collection):
 
 
 def update_scaled_images(collection):
-    """
-    Iterate through the images in the Collection and generate resized versions of images
+    """Iterates through the images in the Collection and generates resized versions of images
     that don't have those yet
     """
     images = collection.images()
@@ -67,10 +64,13 @@ def update_scaled_images(collection):
             scale_image(image.pk, collection.archive_dir, variant.width, variant.height, variant.crop_to_fit)
 
 
-def update_everything():
+def update_everything(config_file):
+    """Iterates through all Collection's, update_collection, remove stale images and scale images
     """
-    Iterate through all Collection's, update_collection, remove stale images and scale images
-    """
+    config = files.load_config(config_file)
+
+    collections = files.get_project_dirs
+
     collections = Collection.objects.all()
     for collection in collections:
         update_collection(collection)

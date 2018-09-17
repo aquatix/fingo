@@ -1,10 +1,9 @@
 # encoding: utf-8
 
-from __future__ import absolute_import
-
-import logging
 import os
 from collections import OrderedDict
+
+import yaml
 
 
 def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
@@ -27,47 +26,54 @@ def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
 
 
 def get_filename(directory, filename):
-    """Return (filename, extension) of the file in filename"""
+    """Returns (filename, extension) of the file in filename"""
 
-    #newFilename, fileExtension = os.path.splitext(filename)[1][1:].strip()
-    #print os.path.splitext(filename)[1][1:].strip()
     extension = os.path.splitext(filename)[1][1:].strip().lower()
-    #print '[Info] {0} - {1}'.format(filename, fileExtension)
-
     new_filename = filename.replace(directory, '')
     return (new_filename, extension)
 
 
 def get_project_dirs(config_file):
-    """
-    project_dir: directory where the gallery metadata lives
-    output_dir: generated website
-    image_originals_dir: source of the original version of the images
-    image_output_dir: generated (scaled) images
-    template_dir: directory of the template to be used for the generated site
-    """
-    try:
-        f = open(config_file)
+    """Loads path information from config file
 
+    Args:
+        config_file (str): the path to the file containing the project's paths
+
+    Returns:
+        List with the paths relevant for the project:
+            project_dir: directory where the gallery metadata lives
+            output_dir: generated website
+            image_originals_dir: source of the original version of the images
+            image_output_dir: generated (scaled) images
+            template_dir: directory of the template to be used for the generated site
+
+    Raises:
+        FileNotFoundError: An error occurred loading the config file
+    """
+    with open(config_file) as f:
         dirs = yaml_ordered_load(f, yaml.SafeLoader)
-        f.close()
-    except IOError as e:
-        print(e)
-        sys.exit(1)
     return dirs
 
 
 def load_config(config_file):
+    """Loads the project configuration
+
+    Args:
+        config_file (str): the path to the file containing the project's paths
+
+    Returns:
+        OrderedDict with title, author and such for gallery, and the paths relevant for the project
+
+    Raises:
+        FileNotFoundError: An error occurred loading the config file(s)
+    """
     dirs = get_project_dirs(config_file)
 
-    try:
-        f = open(os.path.join(dirs['project_dir'], 'config.yaml'))
-
+    with open(os.path.join(dirs['project_dir'], 'config.yaml')) as f:
         gallery_conf = yaml_ordered_load(f, yaml.SafeLoader)
-        f.close()
-    except IOError as e:
-        print(e)
-        sys.exit(1)
+
+    # Insert the various project paths
+    gallery_conf['dirs'] = dirs
     return gallery_conf
 
 

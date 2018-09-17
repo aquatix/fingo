@@ -43,7 +43,7 @@ def clean_images(config):
 @cli.command()
 @click.option('-c', '--config', prompt='Gallery config file', default=None, type=click.Path(exists=True))
 def generate(config):
-    """Generate the site in the destination dir (html and other static assets only, not the images).
+    """Just generates the site in the destination dir (html and other static assets only, not the images).
 
     config: the yaml file containing the various paths for the project to be used
     """
@@ -53,14 +53,12 @@ def generate(config):
 @cli.command()
 @click.option('-c', '--config', prompt='Gallery config file', default=None, type=click.Path(exists=True))
 def build_gallery(config):
-    """Scans the image dirs, updates the metadata in the project path and generates the site in destination,
-    creating image variants where needed
+    """Updates and generates everything: scans the image dirs, updates the metadata in the project path and generates
+    the site in destination, creating image variants where needed
 
     config: the yaml file containing the various paths for the project to be used
     """
-
-    site_config = core.load_config(config)
-    core.update_everything(site_config)
+    core.update_everything(config)
 
 
 if __name__ == '__main__':
