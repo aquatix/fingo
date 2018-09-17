@@ -1,0 +1,5 @@
+project_dir: directory where the gallery metadata lives
+output_dir: generated website
+image_originals_dir: source of the original version of the images
+image_output_dir: generated (scaled) images
+template_dir: directory of the template to be used for the generated site

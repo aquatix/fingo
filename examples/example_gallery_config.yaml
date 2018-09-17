@@ -1,0 +1,8 @@
+title: My Gallery
+author: Mister Me
+description: This is my gallery with example pictures
+footer: My footer text
+
+piwikurl: https://gallery.example.com/webstats/
+piwikdomains: "*.example.com"
+piwikid: 1
