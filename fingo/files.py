@@ -4,16 +4,27 @@ from __future__ import absolute_import
 
 import logging
 import os
-from django.conf import settings
-from imagine.models import Collection, Directory, Image, ImageMeta, PhotoSize, ExifItem
-from imagine import util
-from PIL import Image as PILImage, ImageFile as PILImageFile, ExifTags
-from datetime import datetime
-import exifread
-import imagehash
-import json
-import pytz
-import requests
+from collections import OrderedDict
+
+
+def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
+    """
+    Load yaml mappings into OrderedDict instead of the unordered vanilla dict type
+    source: http://stackoverflow.com/questions/5121931/in-python-how-can-you-load-yaml-mappings-as-ordereddicts
+    """
+    import yaml
+    if not Loader:
+        Loader = yaml.Loader
+    class OrderedLoader(Loader):
+        pass
+    def construct_mapping(loader, node):
+        loader.flatten_mapping(node)
+        return object_pairs_hook(loader.construct_pairs(node))
+    OrderedLoader.add_constructor(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping)
+    return yaml.load(stream, OrderedLoader)
+
 
 def get_filename(directory, filename):
     """Return (filename, extension) of the file in filename"""
@@ -25,6 +36,39 @@ def get_filename(directory, filename):
 
     new_filename = filename.replace(directory, '')
     return (new_filename, extension)
+
+
+def get_project_dirs(config_file):
+    """
+    project_dir: directory where the gallery metadata lives
+    output_dir: generated website
+    image_originals_dir: source of the original version of the images
+    image_output_dir: generated (scaled) images
+    template_dir: directory of the template to be used for the generated site
+    """
+    try:
+        f = open(config_file)
+
+        dirs = yaml_ordered_load(f, yaml.SafeLoader)
+        f.close()
+    except IOError as e:
+        print(e)
+        sys.exit(1)
+    return dirs
+
+
+def load_config(config_file):
+    dirs = get_project_dirs(config_file)
+
+    try:
+        f = open(os.path.join(dirs['project_dir'], 'config.yaml'))
+
+        gallery_conf = yaml_ordered_load(f, yaml.SafeLoader)
+        f.close()
+    except IOError as e:
+        print(e)
+        sys.exit(1)
+    return gallery_conf
 
 
 def update_collection(collection):

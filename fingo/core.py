@@ -5,8 +5,11 @@ from __future__ import absolute_import
 import json
 import logging
 import os
+import sys
 
 import yaml
+
+from fingo import files
 
 try:
     DEBUG = settings.DEBUG
@@ -26,24 +29,12 @@ lh.setFormatter(formatter)
 logger.addHandler(lh)
 
 
-def load_config(config_file):
+def clean_images():
     """
-    project_dir: directory where the gallery metadata lives
-    output_dir: generated website
-    image_originals_dir: source of the original version of the images
-    image_output_dir: generated (scaled) images
-    template_dir: directory of the template to be used for the generated site
+    Iterate through the scaled images and check against the collection if they're still there.
+    Remove those variants when needed.
     """
-    try:
-        f = open(config_file)
-
-        print('r Reading structure from ' + os.path.join(site, 'site.yaml'))
-
-        structure = fileutil.yaml_ordered_load(f, yaml.SafeLoader)
-        f.close()
-    except IOError as e:
-        print(e)
-        sys.exit(1)
+    pass
 
 
 def clean_collection(collection):
