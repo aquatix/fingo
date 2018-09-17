@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ directory.dir_name }}{% endblock %}
+
+{% block content %}
+<h1>{{ directory.dir_name }}</h1>
+
+{% if directory.description %}
+<div id="description">
+    {% load markdownify %}
+    {{ directory.description | markdownify | safe }}
+</div>
+{% endif %}
+
+{% include "directory/thumbnails.html" %}
+
+{% include "image/thumbnails.html" %}
+
+{% endblock %}

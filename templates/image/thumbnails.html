@@ -1,0 +1,9 @@
+<div id="thumbnails">
+{% for image in images %}
+{% include "image/thumbnail.html" %}
+{% endfor %}
+</div>
+
+<script language="javascript">
+$("#thumbnails").justifiedGallery({'captions': true, 'margins': 1, 'rowHeight': 256});
+</script>

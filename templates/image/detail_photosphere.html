@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+{% block title %}{{ image_title }}{% endblock %}
+{% block extrastyling %}
+<link rel="stylesheet" href="{% static "css/photo-sphere-viewer.min.css" %}">
+
+<script src="{% static "js/three.min.js" %}"></script>
+<script src="{% static "js/D.min.js" %}"></script>
+<script src="{% static "js/uevent.min.js" %}"></script>
+<script src="{% static "js/doT.min.js" %}"></script>
+<script src="{% static "js/photo-sphere-viewer.min.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<h1>{{ image_title }}</h1>
+
+<div id="imagelarge">
+<!--
+{{ image.image_hash }}
+-->
+
+    <div id="photosphere"></div>
+
+    <script>
+        var viewer = PhotoSphereViewer({
+            {% if image_orig_url %}
+            panorama: '{{ image_orig_url }}',
+            {% else %}
+            panorama: '{{ image_url }}',
+            {% endif %}
+            container: 'photosphere',
+            navbar: 'autorotate zoom download caption fullscreen',
+            size: {
+                height: 500
+            },
+        });
+    </script>
+
+</div>
+
+<div id="image_meta">
+
+{% include "image/thumbnails.html" %}
+
+{% if image_meta.description %}
+<div id="description">
+    {% load markdownify %}
+    {{ image_meta.description | markdownify | safe }}
+</div>
+{% endif %}
+
+<div id="exifhighlights">
+
+    <table>
+        {% for exifitem in exif_highlights %}
+        <tr><td class="exifkey">{{ exifitem.key|safe }}</td><td>{{ exifitem.value }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+</div>
+
+{% endblock %}

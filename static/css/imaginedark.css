@@ -1,0 +1,215 @@
+
+body
+{
+    background-color: #3C3C3C;
+    color: #FFF;
+    font-family: 'Droid Sans', Arial, Verdana, sans-serif;
+}
+
+#navigation
+{
+    background-color: #121212;
+    padding: .5em;
+}
+
+#navigation ul
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#navigation li
+{
+    /* Fix for IE9 */
+    list-style-type:none;
+}
+
+#navigation .material-icons
+{
+    font-size: 1em;
+}
+
+a
+{
+    color: #F88C00;
+    text-decoration: none;
+}
+
+h1
+{
+    /*font-family: BebasNeueRegular, arial, Georgia, serif;*/
+    font-family: BebasNeuewebfont, arial, Georgia, serif;
+    color: #FFF;
+    float: left;
+}
+
+.loginform
+{
+    background-color: #121212;
+    margin-top: 1em;
+    padding: 1em;
+}
+
+.zoomnav
+{
+    padding-top: 1em;
+    float: right;
+}
+
+.zoomnav .material-icons, #image_navigation .material-icons
+{
+    font-size: 32px;
+}
+
+.itemlist
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.item
+{
+    width: 400px;
+    background-color: #121212;
+    border-right: 1px solid #3C3C3C;
+    border-bottom: 1px solid #3C3C3C;
+    text-align: center;
+    float: left;
+}
+
+    .item h3,
+    .loginform h3
+    {
+        font-family: BebasNeuewebfont, arial, Georgia, serif;
+        margin: 0.3em 0 0 0;
+    }
+
+    .itemthumb
+    {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        /*background-color: #121212; */
+    }
+
+    .itemthumb img
+    {
+        vertical-align: bottom;
+    }
+
+    .meta
+    {
+        text-align: left;
+        font-size: 0.8em;
+        padding: .3em;
+    }
+
+#dirlist
+{
+    background-color: #121212;
+    margin-bottom: 1em;
+}
+
+#content .image_normal
+{
+    max-width: 100%;
+    max-height: 80vh;
+}
+
+#content .image_max
+{
+    max-width: 100%;
+    max-height: 100vh;
+}
+
+#imagelarge,
+#imagemax
+{
+    text-align: center;
+}
+
+#imagelarge, #imagefull, .itemlist
+{
+    /* Clear the floats of h1 and zoomnav */
+    clear: both;
+}
+
+#imagemax
+{
+    max-height: 100vh;
+}
+
+    #imagemax .zoomnav
+    {
+        padding-top: 0;
+    }
+
+img .image_thumbnail
+{
+}
+
+#image_meta #thumbnails
+{
+    width: 68%;
+    float: left;
+}
+
+#image_meta #description, #image_meta #exifhighlights, #image_meta #image_navigation
+{
+    width: 29%;
+    float: right;
+}
+
+#exifhighlights
+{
+    color: #DDD;
+    font-size: .8em;
+}
+
+    #exifhighlights h3
+    {
+        border-bottom: 1px solid #FFF;
+    }
+
+.exifkey
+{
+    font-size: 2em;
+    padding-right: 1em;
+}
+
+@media (max-width: 500px)
+{
+    .item
+    {
+        width: 100%;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 850px)
+{
+    .item
+    {
+        width: 49%;
+    }
+}
+
+@media (max-width: 850px)
+{
+    .itemthumb
+    {
+        width: 100%;
+    }
+
+    .itemthumb .image_thumbnail
+    {
+        width: 100%;
+    }
+}
+
+@media (min-width: 851px)
+{
+    .itemthumb .image_thumbnail
+    {
+        height: 256px;
+    }
+}

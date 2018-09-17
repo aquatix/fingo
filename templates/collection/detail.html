@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ collection.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ collection.title }}</h1>
+
+{% include "directory/thumbnails.html" %}
+
+{% include "image/thumbnails.html" %}
+
+{% endblock %}
