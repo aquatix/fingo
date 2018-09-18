@@ -73,12 +73,6 @@ def update_everything(config_file):
     project_dirs, images_data = files.get_images_metadata(config['dirs']['image_originals_dir'])
 
     # TODO: get diff between the two with files.get_new_items() and files.get_deleted_items()
-
-
-    collections = files.get_project_dirs
-
-    collections = Collection.objects.all()
-    for collection in collections:
-        update_collection(collection)
-        clean_collection(collection)
-        update_scaled_images(collection)
+    new_items = files.get_new_items()
+    # create new metadata files
+    # create scaled versions of the images
