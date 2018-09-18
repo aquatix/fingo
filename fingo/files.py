@@ -121,6 +121,9 @@ def get_images_metadata(root):
     directories = []
     images = []
 
+    if not os.path.isdir(root):
+        raise NotADirectoryError(root)
+
     for dirname, _dirnames, filenames in os.walk(root):
         this_dir = os.path.join(dirname, '')  # be sure to have trailing / and such
         full_dir = this_dir
@@ -163,6 +166,9 @@ def get_gallery_tree(root):
     """
     directories = []
     images = []
+
+    if not os.path.isdir(root):
+        raise NotADirectoryError(root)
 
     for dirname, _dirnames, filenames in os.walk(root):
         this_dir = os.path.join(dirname, '')  # be sure to have trailing / and such
