@@ -5,6 +5,8 @@ from collections import OrderedDict
 
 import yaml
 
+IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'cr2']
+IMAGE_EXTENSIONS_RAW = ['cr2']
 
 def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
     """
@@ -104,6 +106,105 @@ def _update_directory_parents(collection):
             parent_directory_path = os.path.abspath(os.path.join(directory.directory, os.pardir)) + '/'
             directory.parent_directory = Directory.objects.get(directory=parent_directory_path)
             directory.save()
+
+
+def get_images_metadata(root):
+    """Walks through the directories of the gallery project and returns the directory tree and the image data
+
+    Args:
+        root: root path of the gallery project
+
+    Returns:
+        List of directories, relative to root
+        List of image paths, relative to root
+    """
+    directories = []
+    images = []
+
+    for dirname, _dirnames, filenames in os.walk(root):
+        this_dir = os.path.join(dirname, '')  # be sure to have trailing / and such
+        full_dir = this_dir
+        print(this_dir)
+        this_dir = this_dir.replace(root, '')
+        if this_dir[0] == '/':
+            this_dir = this_dir[1:]
+        if this_dir and this_dir[-1] == '/':
+            this_dir = this_dir[:-1]
+
+        directories.append(full_dir)
+        total_files = total_files + len(filenames)
+
+        for filename in filenames:
+            print(os.path.join(dirname, filename))
+            this_file, this_file_ext = get_filename(root, os.path.join(dirname, filename))
+            this_path = os.path.dirname(this_file)
+            this_file = this_file.replace(this_dir, '')
+            #logger.debug('ext: %s', this_file_ext)
+            if this_file_ext == 'yaml':
+                with open(this_file) as f:
+                    the_image = yaml_ordered_load(f, yaml.SafeLoader)
+            else:
+                #logger.info('skipped %s', filename)
+                pass
+            images.append(the_image)
+
+    return directories, images
+
+
+def get_gallery_tree(root):
+    """Walks through the directories of the gallery images and returns the directory tree and the images
+
+    Args:
+        root: root path of the gallery
+
+    Returns:
+        List of directories, relative to root
+        List of image paths, relative to root
+    """
+    directories = []
+    images = []
+
+    for dirname, _dirnames, filenames in os.walk(root):
+        this_dir = os.path.join(dirname, '')  # be sure to have trailing / and such
+        full_dir = this_dir
+        print(this_dir)
+        this_dir = this_dir.replace(root, '')
+        if this_dir[0] == '/':
+            this_dir = this_dir[1:]
+        if this_dir and this_dir[-1] == '/':
+            this_dir = this_dir[:-1]
+
+        directories.append(full_dir)
+        total_files = total_files + len(filenames)
+
+        for filename in filenames:
+            print(os.path.join(dirname, filename))
+            this_file, this_file_ext = get_filename(root, os.path.join(dirname, filename))
+            this_path = os.path.dirname(this_file)
+            this_file = this_file.replace(this_dir, '')
+            #logger.debug('ext: %s', this_file_ext)
+            if this_file_ext in IMAGE_EXTENSIONS:
+                the_image = {
+                    'directory': full_dir,
+                    'filename': filename,
+                    'file_ext': this_file_ext,
+                    'file_path': this_path,
+                }
+            else:
+                #logger.info('skipped %s', filename)
+                pass
+            images.append(the_image)
+
+    return directories, images
+
+
+def get_new_items(root, directories, images):
+    """Compares the current situation with the project directory
+    
+    
+    """
+    pass
+
 
 
 def _walk_archive(collection):

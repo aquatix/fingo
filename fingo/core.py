@@ -5,7 +5,6 @@ from __future__ import absolute_import
 import json
 import logging
 import os
-import sys
 
 import yaml
 
@@ -68,6 +67,13 @@ def update_everything(config_file):
     """Iterates through all Collection's, update_collection, remove stale images and scale images
     """
     config = files.load_config(config_file)
+
+    directories, images = files.get_gallery_tree(config['dirs']['image_originals_dir'])
+
+    project_dirs, images_data = files.get_images_metadata(config['dirs']['image_originals_dir'])
+
+    # TODO: get diff between the two with files.get_new_items() and files.get_deleted_items()
+
 
     collections = files.get_project_dirs
 
