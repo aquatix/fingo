@@ -5,4 +5,8 @@ Images can be put in a directory tree, but will be put in albums based on their 
 
 The metadata is put in [YAML](https://en.wikipedia.org/wiki/YAML) files, which are named after the [image hash](https://github.com/JohannesBuchner/imagehash) of the pictures, specifically the [dHash variant](http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html).
 
-You can learn more in [the technical design](technicaldesign.md)
+You can learn more in [the technical design](technicaldesign.md).
+
+fingo supports themes, for example [this dark theme](https://github.com/aquatix/fingo-theme-dark).
+
+Changes are tracked in [the changelog](CHANGELOG.md).
