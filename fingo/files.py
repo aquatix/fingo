@@ -24,7 +24,7 @@ def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
     OrderedLoader.add_constructor(
         yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
         construct_mapping)
-    return yaml.safe_load(stream, OrderedLoader)
+    return yaml.load(stream, OrderedLoader)
 
 
 def get_filename(directory, filename):
