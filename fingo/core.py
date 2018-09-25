@@ -6,8 +6,6 @@ import json
 import logging
 import os
 
-import yaml
-
 from fingo import files
 
 try:
