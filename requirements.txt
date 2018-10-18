@@ -4,17 +4,17 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-certifi==2018.8.24        # via requests
+certifi==2018.10.15       # via requests
 chardet==3.0.4            # via requests
-click==6.7
+click==7.0
 exifread==2.1.2
 idna==2.7                 # via requests
 imagehash==4.0
 numpy==1.15.2             # via imagehash, pywavelets, scipy
-pillow==5.2.0
-pywavelets==1.0.0         # via imagehash
+pillow==5.3.0
+pywavelets==1.0.1         # via imagehash
 pyyaml==3.13
-requests==2.19.1
+requests==2.20.0
 scipy==1.1.0              # via imagehash
 six==1.11.0               # via imagehash
-urllib3==1.23             # via requests
+urllib3==1.24             # via requests
