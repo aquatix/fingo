@@ -1,9 +1,11 @@
 # encoding: utf-8
-
+import logging
 import os
 
 import strictyaml
-from strictyaml import Bool, Int, Map, MapPattern, Optional, Str
+from strictyaml import Int, Map, Optional, Str
+
+logger = logging.getLogger('fingo.files')
 
 IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'cr2']
 IMAGE_EXTENSIONS_RAW = ['cr2']
@@ -52,7 +54,7 @@ def get_project_dirs(config_file):
         FileNotFoundError: An error occurred loading the config file
     """
     with open(config_file) as f:
-        dirs = strictyaml.read(f.read(), DIRS_SCHEMA).data
+        dirs = strictyaml.load(f.read(), DIRS_SCHEMA).data
     return dirs
 
 
@@ -71,7 +73,7 @@ def load_config(config_file):
     dirs = get_project_dirs(config_file)
 
     with open(os.path.join(dirs['project_dir'], 'config.yaml')) as f:
-        gallery_conf = strictyaml.read(f.read(), CONFIG_SCHEMA).data
+        gallery_conf = strictyaml.load(f.read(), CONFIG_SCHEMA).data
 
     # Insert the various project paths
     gallery_conf['dirs'] = dirs
@@ -205,11 +207,8 @@ def get_gallery_tree(root):
 
 def get_new_items(root, directories, images):
     """Compares the current situation with the project directory
-    
-    
     """
     pass
-
 
 
 def _walk_archive(collection):
@@ -260,7 +259,13 @@ def _walk_archive(collection):
                 #logger.info('skipped %s', filename)
                 pass
 
-    logger.info('added %d images to archive out of %d total, skipped %d; created %d directories', image_counter, total_files, skipped_counter, created_dirs)
+    logger.info(
+        'added %d images to archive out of %d total, skipped %d; created %d directories',
+        image_counter,
+        total_files,
+        skipped_counter,
+        created_dirs
+    )
 
     #if created_dirs:
     _update_directory_parents(collection)
