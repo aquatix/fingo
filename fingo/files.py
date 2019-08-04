@@ -1,31 +1,30 @@
 # encoding: utf-8
 
 import os
-from collections import OrderedDict
 
-import yaml
+import strictyaml
+from strictyaml import Bool, Int, Map, MapPattern, Optional, Str
 
 IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'cr2']
 IMAGE_EXTENSIONS_RAW = ['cr2']
 
-def yaml_ordered_load(stream, Loader=None, object_pairs_hook=OrderedDict):
-    """
-    Load yaml mappings into OrderedDict instead of the unordered vanilla dict type
-    source: http://stackoverflow.com/questions/5121931/in-python-how-can-you-load-yaml-mappings-as-ordereddicts
-    """
-    import yaml
-    if not Loader:
-        Loader = yaml.Loader
-    class OrderedLoader(Loader):
-        pass
-    def construct_mapping(loader, node):
-        loader.flatten_mapping(node)
-        return object_pairs_hook(loader.construct_pairs(node))
-    OrderedLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        construct_mapping)
-    return yaml.load(stream, OrderedLoader)
+DIRS_SCHEMA = Map({
+    "project_dir": Str(),
+    "output_dir": Str(),
+    "image_originals_dir": Str(),
+    "image_output_dir": Str(),
+    "template_dir": Str(),
+})
 
+CONFIG_SCHEMA = Map({
+    "title": Str(),
+    "author": Str(),
+    "description": Str(),
+    "footer": Str(),
+    Optional("piwikurl"): Str(),
+    Optional("piwikdomains"): Str(),
+    Optional("piwikid"): Int(),
+})
 
 def get_filename(directory, filename):
     """Returns (filename, extension) of the file in filename"""
@@ -53,7 +52,7 @@ def get_project_dirs(config_file):
         FileNotFoundError: An error occurred loading the config file
     """
     with open(config_file) as f:
-        dirs = yaml_ordered_load(f, yaml.SafeLoader)
+        dirs = strictyaml.read(f.read(), DIRS_SCHEMA).data
     return dirs
 
 
@@ -72,7 +71,7 @@ def load_config(config_file):
     dirs = get_project_dirs(config_file)
 
     with open(os.path.join(dirs['project_dir'], 'config.yaml')) as f:
-        gallery_conf = yaml_ordered_load(f, yaml.SafeLoader)
+        gallery_conf = strictyaml.read(f.read(), CONFIG_SCHEMA).data
 
     # Insert the various project paths
     gallery_conf['dirs'] = dirs
